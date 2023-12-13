@@ -28,3 +28,15 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+## 進めたものリスト
+- https://note.com/shift_tech/n/n9c5fcd207680#b30a8753-047f-4b7a-842c-eb3929b80e75
+- https://note.com/shift_tech/n/n728b559e5097
+
+## 進めてるもの
+- https://zenn.dev/sprout2000/books/76a279bb90c3f3
+
+## ToDoリスト
+- 上記のプロジェクトファイルの理解
+- https://zenn.dev/sprout2000/books/76a279bb90c3f3
