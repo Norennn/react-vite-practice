@@ -1,9 +1,17 @@
 // React から useState フックをインポート
-import { useState } from 'react';
+import { useState } from "react";
+
+// "Todo型" の定義
+type Todo = {
+  // プロパティ value は文字列型
+  value: string;
+};
 
 export const App = () => {
   // 初期値: 空文字列 ''
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
+  // 追加
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   return (
     <div>
@@ -15,7 +23,7 @@ export const App = () => {
           // onChange イベント（＝入力テキストの変化）を text ステートに反映する
           onChange={(e) => setText(e.target.value)}
         />
-        <input type="submit" />  {/* ← 省略 */}
+        <input type="submit" /> {/* ← 省略 */}
       </form>
 
       {/* ↓ DOM のリアクティブな反応を見るためのサンプル */}
