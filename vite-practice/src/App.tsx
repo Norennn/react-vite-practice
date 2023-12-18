@@ -1,34 +1,39 @@
-// React から useState フックをインポート
 import { useState } from "react";
 
-// "Todo型" の定義
 type Todo = {
-  // プロパティ value は文字列型
   value: string;
 };
 
 export const App = () => {
-  // 初期値: 空文字列 ''
   const [text, setText] = useState("");
-  // 追加
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (!text) return;
+
+    const newTodo: Todo = {
+      value: text,
+    };
+
+    setTodos((todos) => [newTodo, ...todos]);
+    setText("");
+  };
 
   return (
     <div>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          // text ステートが持っている入力中テキストの値を value として表示
-          value={text}
-          // onChange イベント（＝入力テキストの変化）を text ステートに反映する
-          onChange={(e) => setText(e.target.value)}
-        />
-        <input type="submit" /> {/* ← 省略 */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <input type="text" value={text} onChange={(e) => handleChange(e)} />
+        <input type="submit" value="追加" onSubmit={handleSubmit} />
       </form>
-
-      {/* ↓ DOM のリアクティブな反応を見るためのサンプル */}
-      <p>{text}</p>
-      {/* ↑ あとで削除 */}
     </div>
   );
 };
