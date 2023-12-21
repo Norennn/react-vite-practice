@@ -1,0 +1,24 @@
+.App {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.datePicker {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.addTodoButton {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.todoItem {
+  margin: 10px 0;
+}
+
+.filter {
+  width: 100%;
+  margin-bottom: 10px;
+}
