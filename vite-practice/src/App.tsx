@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import localforage from "localforage";
 
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { indigo, pink } from "@mui/material/colors";
 
+import { QR } from "./QR";
 import { ToolBar } from "./ToolBar";
 import { SideBar } from "./SideBar";
 import { TodoItem } from "./TodoItem";
 import { FormDialog } from "./FormDialog";
+import { AlertDialog } from "./AlertDialog";
 import { ActionButton } from "./ActionButton";
+
+import { isTodos } from "./lib/isTodos";
 
 const theme = createTheme({
   palette: {
@@ -30,18 +36,39 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
 
+  const [qrOpen, setQrOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleToggleQR = () => {
+    setQrOpen((qrOpen) => !qrOpen);
+  };
 
   const handleToggleDrawer = () => {
     setDrawerOpen((drawerOpen) => !drawerOpen);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleToggleDialog = () => {
+    setDialogOpen((dialogOpen) => !dialogOpen);
+    setText("");
+  };
+
+  const handleToggleAlert = () => {
+    setAlertOpen((alertOpen) => !alertOpen);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setText(e.target.value);
   };
 
   const handleSubmit = () => {
-    if (!text) return;
+    if (!text) {
+      setDialogOpen((dialogOpen) => !dialogOpen);
+      return;
+    }
 
     const newTodo: Todo = {
       value: text,
@@ -52,6 +79,7 @@ export const App = () => {
 
     setTodos((todos) => [newTodo, ...todos]);
     setText("");
+    setDialogOpen((dialogOpen) => !dialogOpen);
   };
 
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
@@ -80,6 +108,16 @@ export const App = () => {
     setFilter(filter);
   };
 
+  useEffect(() => {
+    localforage
+      .getItem("todo-20200101")
+      .then((values) => isTodos(values) && setTodos(values));
+  }, []);
+
+  useEffect(() => {
+    localforage.setItem("todo-20200101", todos);
+  }, [todos]);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
@@ -87,11 +125,31 @@ export const App = () => {
       <SideBar
         drawerOpen={drawerOpen}
         onSort={handleSort}
+        onToggleQR={handleToggleQR}
         onToggleDrawer={handleToggleDrawer}
       />
-      <FormDialog text={text} onChange={handleChange} onSubmit={handleSubmit} />
+      <QR open={qrOpen} onClose={handleToggleQR} />
+      <FormDialog
+        text={text}
+        dialogOpen={dialogOpen}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onToggleDialog={handleToggleDialog}
+      />
+      <AlertDialog
+        alertOpen={alertOpen}
+        onEmpty={handleEmpty}
+        onToggleAlert={handleToggleAlert}
+      />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
-      <ActionButton todos={todos} onEmpty={handleEmpty} />
+      <ActionButton
+        todos={todos}
+        filter={filter}
+        alertOpen={alertOpen}
+        dialogOpen={dialogOpen}
+        onToggleAlert={handleToggleAlert}
+        onToggleDialog={handleToggleDialog}
+      />
     </ThemeProvider>
   );
 };
