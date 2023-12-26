@@ -33,10 +33,10 @@ export default {
 ## 進めたものリスト
 - https://note.com/shift_tech/n/n9c5fcd207680#b30a8753-047f-4b7a-842c-eb3929b80e75
 - https://note.com/shift_tech/n/n728b559e5097
+- https://zenn.dev/sprout2000/books/76a279bb90c3f3
 
 ## 進めてるもの
-- https://zenn.dev/sprout2000/books/76a279bb90c3f3
+- https://ja.react.dev/
 
 ## ToDoリスト
-- 上記のプロジェクトファイルの理解
-- https://zenn.dev/sprout2000/books/76a279bb90c3f3
+- https://www.udemy.com/course/react-complete-guide/learn/lecture/31587898?start=0#overview
