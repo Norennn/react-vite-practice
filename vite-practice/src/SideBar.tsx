@@ -53,7 +53,10 @@ export const SideBar = (props: Props) => (
         <DrawerAvatar>
           <Icon>create</Icon>
         </DrawerAvatar>
-        <p>TODO v{pjson.version}</p>
+        <p>
+          TODOTODO v{pjson.version}
+          <a href="./src/hoge/index.html">hoge</a>
+        </p>
       </DrawerHeader>
       <List>
         <ListItem disablePadding>

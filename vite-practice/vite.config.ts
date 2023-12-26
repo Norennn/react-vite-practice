@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import path from 'path';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -35,8 +36,15 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
-        id: '/todo/',
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        hoge: path.resolve(__dirname, 'src/hoge/hoge.html'),
+      },
+    },
+  },
 });
