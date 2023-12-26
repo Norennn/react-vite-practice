@@ -3,11 +3,17 @@ import { Button, Input, DatePicker, Card, Select, Divider } from "antd";
 import { DeleteOutlined, UndoOutlined } from "@ant-design/icons";
 import "./TodoApp.css";
 
-export const App = () => {
-  const { TextArea } = Input;
-  const { Option } = Select;
+const { TextArea } = Input;
+const { Option } = Select;
 
-  const [todos, setTodos] = useState(() => {
+interface Todo {
+  task: string;
+  duedate: string;
+  detail: string;
+}
+
+export const App = () => {
+  const [todos, setTodos] = useState<Todo[]>(() => {
     const savedTodos = localStorage.getItem("todos");
     if (savedTodos) {
       return JSON.parse(savedTodos);
@@ -16,7 +22,7 @@ export const App = () => {
     }
   });
 
-  const [deletedTodos, setDeletedTodos] = useState(() => {
+  const [deletedTodos, setDeletedTodos] = useState<Todo[]>(() => {
     const savedDeletedTodos = localStorage.getItem("deletedTodos");
     if (savedDeletedTodos) {
       return JSON.parse(savedDeletedTodos);
@@ -26,7 +32,7 @@ export const App = () => {
   });
 
   const [task, setTask] = useState("");
-  const [duedate, setDuedate] = useState(null);
+  const [duedate, setDuedate] = useState<string | null>(null);
   const [detail, setDetail] = useState("");
   const [filter, setFilter] = useState("all");
 
@@ -44,7 +50,7 @@ export const App = () => {
     }
   };
 
-  const handleRemoveTodo = (index) => {
+  const handleRemoveTodo = (index: number) => {
     const newDeletedTodos = todos.filter((_, todoIndex) => todoIndex === index);
     setDeletedTodos([...deletedTodos, ...newDeletedTodos]);
 
@@ -52,7 +58,7 @@ export const App = () => {
     setTodos(newTodos);
   };
 
-  const handleRecoverTodo = (index) => {
+  const handleRecoverTodo = (index: number) => {
     const recoveredTodo = deletedTodos[index];
     const newDeletedTodos = deletedTodos.filter((_, idx) => idx !== index);
     setDeletedTodos(newDeletedTodos);
@@ -74,7 +80,7 @@ export const App = () => {
       <Select
         className="filter"
         defaultValue="all"
-        onChange={(e) => setFilter(e)}
+        onChange={(value: string) => setFilter(value)}
       >
         <Option value="all">All</Option>
         <Option value="overdue">Overdue</Option>
